@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Systems
 {
-    public class PositionTransformSyncSystem
+    public partial class PositionTransformSyncSystem
     {
         [EcsRun]
-        private void Update(in UnityRef<Transform> transform, in Position position)
+        partial void Update(in UnityRef<Transform> transform, in Position position)
         {
             transform.Object.position = position.Value;
         }
