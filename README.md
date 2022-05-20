@@ -7,7 +7,7 @@ The code generation part of LeoECS Extensions.
 The project relies on .NET Compiler Platform:
 - Source Generators
 - Analyzers
-- Code Fixes Providers
+- Code Fix Providers
 
 > Developed and tested with Unity 2021.3.0f1
 
