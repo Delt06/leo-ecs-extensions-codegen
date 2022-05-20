@@ -2,7 +2,7 @@
     "name": "com.deltation.leo-ecs-extensions-codegen",
     "version": "0.1.0",
     "displayName": "LeoECS Extensions (CodeGen)",
-    "description": "A code generation part of LeoECS Extensions.",
+    "description": "The code generation part of LeoECS Extensions.",
     "unity": "2021.3",
     "keywords": [
         "ECS",

@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/github/v/release/Delt06/leo-ecs-extensions-codegen?sort=semver)](https://github.com/Delt06/leo-ecs-extensions-codegen/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A code generation part of LeoECS Extensions.
+The code generation part of LeoECS Extensions.
 
 > Developed and tested with Unity 2021.3.0f1
 
