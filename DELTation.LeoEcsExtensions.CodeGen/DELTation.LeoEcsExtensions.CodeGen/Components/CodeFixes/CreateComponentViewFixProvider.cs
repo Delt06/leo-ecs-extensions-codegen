@@ -106,7 +106,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Components.CodeFixes
             root = root.ReplaceNode(old, @new);
             root = root
                     .TryAddUsingStatement("DELTation.LeoEcsExtensions.Views.Components")
-                    .TryAddUsingStatement("DELTation.LeoEcsExtensions.Attributes")
+                    .TryAddUsingStatement("DELTation.LeoEcsExtensions.CodeGen.Attributes")
                     .TryAddUsingStatement("System")
                 ;
             var newDocument = document.WithSyntaxRoot(root);
