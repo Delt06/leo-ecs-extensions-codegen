@@ -1,0 +1,14 @@
+{
+    "name": "DELTation.LeoEcsExtensions.CodeGen.Unity",
+    "rootNamespace": "DELTation.LeoEcsExtensions.CodeGen",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
