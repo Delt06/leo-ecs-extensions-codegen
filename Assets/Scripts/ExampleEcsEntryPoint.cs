@@ -7,7 +7,9 @@ public class ExampleEcsEntryPoint : EcsEntryPoint
     {
         featureBuilder
             .CreateAndAdd<CircularMovementSystem>()
+            .CreateAndAdd<UniformRotationSystem>()
             .CreateAndAdd<PositionTransformSyncSystem>()
+            .CreateAndAdd<RotationTransformSyncSystem>()
             ;
     }
 }
