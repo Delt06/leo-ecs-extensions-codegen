@@ -12,7 +12,16 @@ A code generation part of LeoECS Extensions.
 - [Installation](#installation)
 - [Usage](#usage)
 
+## Dependencies
+
+- [LeoEcs Extensions](https://github.com/Delt06/leo-ecs-extensions)
+
 ## Installation
+
+### Dependencies
+
+Before proceeding, the dependencies have to be installed.
+
 ### Option 1
 - Open Package Manager through Window/Package Manager
 - Click "+" and choose "Add package from git URL..."
