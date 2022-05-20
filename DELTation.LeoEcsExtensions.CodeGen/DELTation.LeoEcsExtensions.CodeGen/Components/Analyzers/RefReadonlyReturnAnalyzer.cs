@@ -9,55 +9,55 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace DELTation.LeoEcsExtensions.CodeGen.Components.Analyzers
 {
-	[DiagnosticAnalyzer(LanguageNames.CSharp)]
-	public class RefReadonlyReturnAnalyzer : DiagnosticAnalyzer
-	{
-		public const string RefReadonlyReturnId = "LEOECS102";
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
+    public class RefReadonlyReturnAnalyzer : DiagnosticAnalyzer
+    {
+        public const string RefReadonlyReturnId = "LEOECS102";
 
-		private static readonly DiagnosticDescriptor RefReadonlyReturn = new DiagnosticDescriptor(
-			RefReadonlyReturnId,
-			"Add ref initializer",
-			"Add ref initializer",
-			Constants.DiagnosticCategory,
-			DiagnosticSeverity.Info,
-			true
-		);
+        private static readonly DiagnosticDescriptor RefReadonlyReturn = new DiagnosticDescriptor(
+            RefReadonlyReturnId,
+            "Add ref initializer",
+            "Add ref initializer",
+            Constants.DiagnosticCategory,
+            DiagnosticSeverity.Info,
+            true
+        );
 
-		public override ImmutableArray<DiagnosticDescriptor>
-			SupportedDiagnostics =>
-			ImmutableArray.Create(RefReadonlyReturn);
+        public override ImmutableArray<DiagnosticDescriptor>
+            SupportedDiagnostics =>
+            ImmutableArray.Create(RefReadonlyReturn);
 
-		public override void Initialize(AnalysisContext context)
-		{
-			context.EnableConcurrentExecution();
-			context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze |
-			                                       GeneratedCodeAnalysisFlags.ReportDiagnostics
-			);
-			context.RegisterSyntaxNodeAction(
-				AnalyzeNode, SyntaxKind.LocalDeclarationStatement
-			);
-		}
+        public override void Initialize(AnalysisContext context)
+        {
+            context.EnableConcurrentExecution();
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze |
+                                                   GeneratedCodeAnalysisFlags.ReportDiagnostics
+            );
+            context.RegisterSyntaxNodeAction(
+                AnalyzeNode, SyntaxKind.LocalDeclarationStatement
+            );
+        }
 
-		private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
-		{
-			var lds = (LocalDeclarationStatementSyntax)context.Node;
-			var type = lds.Declaration.Type;
-			if (!(type is RefTypeSyntax refTypeSyntax)) return;
-			if (refTypeSyntax.ReadOnlyKeyword == default) return;
+        private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
+        {
+            var lds = (LocalDeclarationStatementSyntax) context.Node;
+            var type = lds.Declaration.Type;
+            if (!(type is RefTypeSyntax refTypeSyntax)) return;
+            if (refTypeSyntax.ReadOnlyKeyword == default) return;
 
-			foreach (var variable in lds.Declaration.Variables)
-			{
-				var value = variable.Initializer?.Value;
-				if (!(value is InvocationExpressionSyntax invocationExpressionSyntax)) continue;
+            foreach (var variable in lds.Declaration.Variables)
+            {
+                var value = variable.Initializer?.Value;
+                if (!(value is InvocationExpressionSyntax invocationExpressionSyntax)) continue;
 
-				var declaredSymbol = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax.Expression).Symbol;
-				if (!(declaredSymbol is IMethodSymbol { ReturnsByRefReadonly: true })) continue;
+                var declaredSymbol = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax.Expression).Symbol;
+                if (!(declaredSymbol is IMethodSymbol { ReturnsByRefReadonly: true })) continue;
 
-				context.ReportDiagnostic(Diagnostic.Create(RefReadonlyReturn, invocationExpressionSyntax.GetLocation(),
-						invocationExpressionSyntax
-					)
-				);
-			}
-		}
-	}
+                context.ReportDiagnostic(Diagnostic.Create(RefReadonlyReturn, invocationExpressionSyntax.GetLocation(),
+                        invocationExpressionSyntax
+                    )
+                );
+            }
+        }
+    }
 }

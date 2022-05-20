@@ -7,95 +7,95 @@ using static DELTation.LeoEcsExtensions.CodeGen.Systems.EcsMethodParameterProces
 
 namespace DELTation.LeoEcsExtensions.CodeGen.Systems
 {
-	public class EcsMethodParameterProcessor
-	{
-		public enum ExtraError
-		{
-			NoIncludes,
-		}
+    public class EcsMethodParameterProcessor
+    {
+        public enum ExtraError
+        {
+            NoIncludes,
+        }
 
-		public enum Result
-		{
-			Pool,
-			EntityId,
-			EntityIdWithModifiers,
-			Component,
-			ComponentOfReferenceType,
-			ComponentDuplicate,
-			ComponentWithOutModifier,
-			ComponentWithoutInOrRef,
-		}
+        public enum Result
+        {
+            Pool,
+            EntityId,
+            EntityIdWithModifiers,
+            Component,
+            ComponentOfReferenceType,
+            ComponentDuplicate,
+            ComponentWithOutModifier,
+            ComponentWithoutInOrRef,
+        }
 
-		private readonly Compilation _compilation;
+        private readonly Compilation _compilation;
 
-		private readonly SemanticModel _semanticModel;
+        private readonly SemanticModel _semanticModel;
 
-		public EcsMethodParameterProcessor(SemanticModel semanticModel, Compilation compilation)
-		{
-			_semanticModel = semanticModel;
-			_compilation = compilation;
-		}
+        public EcsMethodParameterProcessor(SemanticModel semanticModel, Compilation compilation)
+        {
+            _semanticModel = semanticModel;
+            _compilation = compilation;
+        }
 
-		public (Result[] results, ExtraError[] extraErrors) Run(IReadOnlyList<ParameterSyntax> parameters)
-		{
-			var results = new Result[parameters.Count];
-			var componentTypeNames = new HashSet<string>();
+        public (Result[] results, ExtraError[] extraErrors) Run(IReadOnlyList<ParameterSyntax> parameters)
+        {
+            var results = new Result[parameters.Count];
+            var componentTypeNames = new HashSet<string>();
 
-			for (var index = 0; index < parameters.Count; index++)
-			{
-				var parameter = parameters[index];
-				results[index] = Run(parameter, componentTypeNames);
-			}
+            for (var index = 0; index < parameters.Count; index++)
+            {
+                var parameter = parameters[index];
+                results[index] = Run(parameter, componentTypeNames);
+            }
 
-			var extraErrors = new List<ExtraError>();
+            var extraErrors = new List<ExtraError>();
 
-			if (componentTypeNames.Count == 0)
-				extraErrors.Add(NoIncludes);
+            if (componentTypeNames.Count == 0)
+                extraErrors.Add(NoIncludes);
 
-			return (results, extraErrors.ToArray());
-		}
+            return (results, extraErrors.ToArray());
+        }
 
-		private Result Run(ParameterSyntax parameter, HashSet<string> componentTypeNames)
-		{
-			var parameterTypeSymbol = _semanticModel.GetType(parameter);
-			var parameterTypeName = parameterTypeSymbol.GetFullyQualifiedName();
+        private Result Run(ParameterSyntax parameter, HashSet<string> componentTypeNames)
+        {
+            var parameterTypeSymbol = _semanticModel.GetType(parameter);
+            var parameterTypeName = parameterTypeSymbol.GetFullyQualifiedName();
 
 
-			var parameterModifiers = parameter.Modifiers;
+            var parameterModifiers = parameter.Modifiers;
 
-			if (parameterTypeName.StartsWith("Leopotam.EcsLite.EcsPool<") &&
-			    parameterTypeSymbol.TypeArguments.Length == 1)
-				return Pool;
+            if (parameterTypeName.StartsWith("Leopotam.EcsLite.EcsPool<") &&
+                parameterTypeSymbol.TypeArguments.Length == 1)
+                return Pool;
 
-			const string idTypeName = "System.Int32";
+            const string idTypeName = "System.Int32";
 
-			if (parameterTypeName == idTypeName)
-			{
-				if (parameterModifiers.Any()) return EntityIdWithModifiers;
+            if (parameterTypeName == idTypeName)
+            {
+                if (parameterModifiers.Any()) return EntityIdWithModifiers;
 
-				return EntityId;
-			}
+                return EntityId;
+            }
 
-			var componentType = _compilation.GetTypeByMetadataName(parameterTypeName);
-			if (componentType is { IsValueType: false })
-				return ComponentOfReferenceType;
+            var componentType = _compilation.GetTypeByMetadataName(parameterTypeName);
+            if (componentType is { IsValueType: false })
+                return ComponentOfReferenceType;
 
-			if (componentTypeNames.Contains(parameterTypeName))
-				return ComponentDuplicate;
+            if (componentTypeNames.Contains(parameterTypeName))
+                return ComponentDuplicate;
 
-			componentTypeNames.Add(parameterTypeName);
+            componentTypeNames.Add(parameterTypeName);
 
-			var hasIn = parameterModifiers.Any(SyntaxKind.InKeyword);
-			var hasRef = parameterModifiers.Any(SyntaxKind.RefKeyword);
-			var hasOut = parameterModifiers.Any(SyntaxKind.OutKeyword);
+            var hasIn = parameterModifiers.Any(SyntaxKind.InKeyword);
+            var hasRef = parameterModifiers.Any(SyntaxKind.RefKeyword);
+            var hasOut = parameterModifiers.Any(SyntaxKind.OutKeyword);
 
-			if (hasOut)
-				return ComponentWithOutModifier;
+            if (hasOut)
+                return ComponentWithOutModifier;
 
-			if (!hasIn && !hasRef)
-				return ComponentWithoutInOrRef;
+            if (!hasIn && !hasRef)
+                return ComponentWithoutInOrRef;
 
-			return Component;
-		}
-	}
+            return Component;
+        }
+    }
 }

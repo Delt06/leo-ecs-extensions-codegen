@@ -10,48 +10,48 @@ using static DELTation.LeoEcsExtensions.CodeGen.Systems.Constants;
 
 namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Analyzers
 {
-	[DiagnosticAnalyzer(LanguageNames.CSharp)]
-	public class CreateConfigureRunFilterAnalyzer : DiagnosticAnalyzer
-	{
-		public const string ConfigureFilterId = "LEOECS015";
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
+    public class CreateConfigureRunFilterAnalyzer : DiagnosticAnalyzer
+    {
+        public const string ConfigureFilterId = "LEOECS015";
 
-		private static readonly DiagnosticDescriptor ConfigureFilter = new DiagnosticDescriptor(
-			ConfigureFilterId,
-			"Create filter configuration method",
-			"Create filter configuration method",
-			DiagnosticCategory,
-			DiagnosticSeverity.Info,
-			true
-		);
+        private static readonly DiagnosticDescriptor ConfigureFilter = new DiagnosticDescriptor(
+            ConfigureFilterId,
+            "Create filter configuration method",
+            "Create filter configuration method",
+            DiagnosticCategory,
+            DiagnosticSeverity.Info,
+            true
+        );
 
-		public override ImmutableArray<DiagnosticDescriptor>
-			SupportedDiagnostics =>
-			ImmutableArray.Create(ConfigureFilter);
+        public override ImmutableArray<DiagnosticDescriptor>
+            SupportedDiagnostics =>
+            ImmutableArray.Create(ConfigureFilter);
 
-		public override void Initialize(AnalysisContext context)
-		{
-			context.EnableConcurrentExecution();
-			context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze |
-			                                       GeneratedCodeAnalysisFlags.ReportDiagnostics
-			);
-			context.RegisterSyntaxNodeAction(
-				AnalyzeNode, SyntaxKind.Attribute
-			);
-		}
+        public override void Initialize(AnalysisContext context)
+        {
+            context.EnableConcurrentExecution();
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze |
+                                                   GeneratedCodeAnalysisFlags.ReportDiagnostics
+            );
+            context.RegisterSyntaxNodeAction(
+                AnalyzeNode, SyntaxKind.Attribute
+            );
+        }
 
-		private void AnalyzeNode(SyntaxNodeAnalysisContext context)
-		{
-			var attributeSyntax = (AttributeSyntax)context.Node;
-			if (!attributeSyntax.IsAnyEcsMethodAttribute()) return;
-			if (!SyntaxNodeHelper.TryGetParentSyntax(attributeSyntax, out ClassDeclarationSyntax cds)) return;
+        private void AnalyzeNode(SyntaxNodeAnalysisContext context)
+        {
+            var attributeSyntax = (AttributeSyntax) context.Node;
+            if (!attributeSyntax.IsAnyEcsMethodAttribute()) return;
+            if (!SyntaxNodeHelper.TryGetParentSyntax(attributeSyntax, out ClassDeclarationSyntax cds)) return;
 
-			var requiredMethodName = attributeSyntax.GetConfigureFilterMethodNameOrDefault();
-			if (requiredMethodName == null) return;
+            var requiredMethodName = attributeSyntax.GetConfigureFilterMethodNameOrDefault();
+            if (requiredMethodName == null) return;
 
-			if (cds.Members.Any(m => m is MethodDeclarationSyntax mds && mds.Identifier.ToString() == requiredMethodName
-			    )) return;
+            if (cds.Members.Any(m => m is MethodDeclarationSyntax mds && mds.Identifier.ToString() == requiredMethodName
+                )) return;
 
-			context.ReportDiagnostic(Diagnostic.Create(ConfigureFilter, attributeSyntax.GetLocation()));
-		}
-	}
+            context.ReportDiagnostic(Diagnostic.Create(ConfigureFilter, attributeSyntax.GetLocation()));
+        }
+    }
 }

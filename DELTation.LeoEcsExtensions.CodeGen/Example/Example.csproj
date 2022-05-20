@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DELTation.LeoEcsExtensions.CodeGen\DELTation.LeoEcsExtensions.CodeGen.csproj" OutputItemType="Analyzer" />
-        <ProjectReference Include="..\ecslite\ecslite.csproj" />
+        <ProjectReference Include="..\DELTation.LeoEcsExtensions.CodeGen\DELTation.LeoEcsExtensions.CodeGen.csproj" OutputItemType="Analyzer"/>
+        <ProjectReference Include="..\ecslite\ecslite.csproj"/>
     </ItemGroup>
 
 </Project>

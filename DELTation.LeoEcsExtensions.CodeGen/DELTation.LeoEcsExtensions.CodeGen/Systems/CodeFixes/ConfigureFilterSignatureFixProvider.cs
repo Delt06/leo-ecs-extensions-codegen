@@ -13,50 +13,50 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace DELTation.LeoEcsExtensions.CodeGen.Systems.CodeFixes
 {
-	[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ConfigureFilterSignatureFixProvider)), Shared]
-	public class ConfigureFilterSignatureFixProvider : CodeFixProvider
-	{
-		private const string ReturnTypeTitle = "Change return type to void";
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ConfigureFilterSignatureFixProvider))] [Shared]
+    public class ConfigureFilterSignatureFixProvider : CodeFixProvider
+    {
+        private const string ReturnTypeTitle = "Change return type to void";
 
-		public sealed override ImmutableArray<string> FixableDiagnosticIds =>
-			ImmutableArray.Create(ConfigureFilterSignatureAnalyzer.ConfigureRunFilterVoidReturnId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds =>
+            ImmutableArray.Create(ConfigureFilterSignatureAnalyzer.ConfigureRunFilterVoidReturnId);
 
-		public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+        public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-		public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
-		{
-			var root =
-				await context.Document.GetSyntaxRootAsync(context.CancellationToken)
-					.ConfigureAwait(false);
+        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        {
+            var root =
+                await context.Document.GetSyntaxRootAsync(context.CancellationToken)
+                    .ConfigureAwait(false);
 
-			var diagnostic = context.Diagnostics.First();
-			var diagnosticSpan = diagnostic.Location.SourceSpan;
+            var diagnostic = context.Diagnostics.First();
+            var diagnosticSpan = diagnostic.Location.SourceSpan;
 
-			var mds =
-				root!.FindToken(diagnosticSpan.Start).Parent!.AncestorsAndSelf()
-					.OfType<MethodDeclarationSyntax>().First();
+            var mds =
+                root!.FindToken(diagnosticSpan.Start).Parent!.AncestorsAndSelf()
+                    .OfType<MethodDeclarationSyntax>().First();
 
-			context.RegisterCodeFix(
-				CodeAction.Create(ReturnTypeTitle, c =>
-						FixReturnTypeAsync(context.Document, mds, c), ReturnTypeTitle
-				), diagnostic
-			);
-		}
+            context.RegisterCodeFix(
+                CodeAction.Create(ReturnTypeTitle, c =>
+                        FixReturnTypeAsync(context.Document, mds, c), ReturnTypeTitle
+                ), diagnostic
+            );
+        }
 
-		private static async Task<Document> FixReturnTypeAsync(Document document,
-			MethodDeclarationSyntax mds,
-			CancellationToken cancellationToken)
-		{
-			var newMds = mds
-					.WithReturnType(PredefinedType(ParseToken("void "))
-					)
-					.WithoutAnnotations(Formatter.Annotation)
-				;
-			var root = await document.GetSyntaxRootAsync(cancellationToken);
-			root = root!.ReplaceNode(mds, newMds);
+        private static async Task<Document> FixReturnTypeAsync(Document document,
+            MethodDeclarationSyntax mds,
+            CancellationToken cancellationToken)
+        {
+            var newMds = mds
+                    .WithReturnType(PredefinedType(ParseToken("void "))
+                    )
+                    .WithoutAnnotations(Formatter.Annotation)
+                ;
+            var root = await document.GetSyntaxRootAsync(cancellationToken);
+            root = root!.ReplaceNode(mds, newMds);
 
-			var newDocument = document.WithSyntaxRoot(root);
-			return newDocument;
-		}
-	}
+            var newDocument = document.WithSyntaxRoot(root);
+            return newDocument;
+        }
+    }
 }
