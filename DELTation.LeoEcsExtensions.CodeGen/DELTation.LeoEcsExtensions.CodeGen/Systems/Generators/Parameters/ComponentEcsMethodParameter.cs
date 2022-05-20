@@ -1,4 +1,6 @@
-﻿namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Parameters
+﻿using static DELTation.LeoEcsExtensions.CodeGen.Systems.Constants;
+
+namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Parameters
 {
     public class ComponentEcsMethodParameter : IEcsMethodParameter
     {
@@ -24,6 +26,12 @@
             if (string.IsNullOrEmpty(filterExpression))
                 return worldExpression + ".Filter<" + _typeName + ">()";
             return filterExpression + ".Inc<" + _typeName + ">()";
+        }
+
+        public string GetSystemComponentAccessAttributeOrDefault()
+        {
+            var componentAccessType = _isIn ? ComponentAccessTypeReadOnly : ComponentAccessTypeReadWrite;
+            return $"[{SystemComponentAccess}(typeof({_typeName}), {componentAccessType})]";
         }
     }
 }

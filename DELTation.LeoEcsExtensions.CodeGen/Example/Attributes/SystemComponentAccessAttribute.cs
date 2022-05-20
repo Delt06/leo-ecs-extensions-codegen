@@ -3,7 +3,7 @@ using System;
 // ReSharper disable once CheckNamespace
 namespace DELTation.LeoEcsExtensions.Systems
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class SystemComponentAccessAttribute : Attribute
     {
         public readonly ComponentAccessType AccessType;

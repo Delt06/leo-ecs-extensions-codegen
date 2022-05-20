@@ -4,5 +4,6 @@
     {
         public string GetArgument(string idExpression) => idExpression;
         public string BuildFilter(string filterExpression, string worldExpression) => filterExpression;
+        public string? GetSystemComponentAccessAttributeOrDefault() => null;
     }
 }

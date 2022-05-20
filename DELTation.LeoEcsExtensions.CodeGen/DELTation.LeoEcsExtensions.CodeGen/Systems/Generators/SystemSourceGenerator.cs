@@ -7,6 +7,7 @@ using DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static DELTation.LeoEcsExtensions.CodeGen.Systems.Constants;
 
 namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators
 {
@@ -32,10 +33,14 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators
 
                 var semanticModel = context.Compilation.GetSemanticModel(cds.SyntaxTree);
                 var poolNames = new Dictionary<string, string>();
+                var attributes = new SortedSet<string>
+                {
+                    $"[{IgnoreInferredSystemComponentAccess}]",
+                };
 
                 var @class = semanticModel.GetType(cds);
                 var methodGenerators =
-                    CreateAndInitMethodsGenerators(context, methods, @class, poolNames, semanticModel);
+                    CreateAndInitMethodsGenerators(context, methods, @class, poolNames, semanticModel, attributes);
 
                 using var writer = new StringWriter();
                 using var indentWriter = new IndentedTextWriter(writer);
@@ -43,6 +48,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators
                 var usingStatements = new SortedSet<string>
                 {
                     "using Leopotam.EcsLite;",
+                    "using DELTation.LeoEcsExtensions.Systems;",
                 };
 
                 foreach (var methodGenerator in methodGenerators)
@@ -84,6 +90,11 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators
                     .Distinct()
                     .OrderBy(i => i);
                 var interfacesListString = string.Join(", ", interfaces);
+
+                foreach (var attribute in attributes)
+                {
+                    indentWriter.WriteLine(attribute);
+                }
 
                 using (indentWriter.BeginScope($"public partial class {className} : {interfacesListString}"))
                 {
@@ -132,7 +143,8 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators
 
         private static List<EcsMethodGeneratorBase> CreateAndInitMethodsGenerators(GeneratorExecutionContext context,
             List<MethodDeclarationSyntax> methods,
-            INamedTypeSymbol @class, Dictionary<string, string> poolNames, SemanticModel semanticModel)
+            INamedTypeSymbol @class, Dictionary<string, string> poolNames, SemanticModel semanticModel,
+            ISet<string> attributes)
         {
             var methodGenerators = new List<EcsMethodGeneratorBase>();
 
@@ -144,7 +156,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators
                     () => new EcsDestroyGenerator(mds, @class),
                     () => throw new InvalidOperationException("Method does not have any ECS method attribute")
                 );
-                generator.Init(poolNames, semanticModel, context.Compilation);
+                generator.Init(poolNames, semanticModel, context.Compilation, attributes);
                 methodGenerators.Add(generator);
             }
 

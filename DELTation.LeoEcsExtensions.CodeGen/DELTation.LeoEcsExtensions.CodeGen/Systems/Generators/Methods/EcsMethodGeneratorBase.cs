@@ -30,9 +30,10 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
 
         protected abstract string ImplementedMethodName { get; }
 
-        public void Init(Dictionary<string, string> poolNames, SemanticModel semanticModel, Compilation compilation)
+        public void Init(Dictionary<string, string> poolNames, SemanticModel semanticModel, Compilation compilation,
+            ISet<string> attributes)
         {
-            InitializeParameters(poolNames, semanticModel, compilation);
+            InitializeParameters(poolNames, semanticModel, compilation, attributes);
             CheckForConfigureFilterMethod();
             CheckInlining();
 
@@ -41,7 +42,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
         }
 
         private void InitializeParameters(Dictionary<string, string> poolNames, SemanticModel semanticModel,
-            Compilation compilation)
+            Compilation compilation, ISet<string> attributes)
         {
             var parameterProcessor = new EcsMethodParameterProcessor(semanticModel, compilation);
             var parameterSyntaxList = _mds.ParameterList.Parameters;
@@ -60,7 +61,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
                     {
                         var poolComponentType = parameterTypeSymbol.TypeArguments[0].GetFullyQualifiedName();
                         var poolName = GetOrCreatePoolName(poolNames, poolComponentType);
-                        _parameters.Add(new PoolEcsMethodParameter(poolName));
+                        _parameters.Add(new PoolEcsMethodParameter(poolName, poolComponentType));
                         break;
                     }
                     case EcsMethodParameterProcessor.Result.EntityId:
@@ -85,6 +86,13 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            }
+
+            foreach (var parameter in _parameters)
+            {
+                var attribute = parameter.GetSystemComponentAccessAttributeOrDefault();
+                if (attribute != null)
+                    attributes.Add(attribute);
             }
         }
 
