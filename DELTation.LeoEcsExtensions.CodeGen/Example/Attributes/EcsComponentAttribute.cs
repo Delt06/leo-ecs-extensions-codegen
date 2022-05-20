@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DELTation.LeoEcsExtensions.CodeGen.Example.Attributes
+namespace DELTation.LeoEcsExtensions.CodeGen.Attributes
 {
     [AttributeUsage(AttributeTargets.Struct)]
     public class EcsComponentAttribute : Attribute { }

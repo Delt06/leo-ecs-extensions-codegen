@@ -6,12 +6,12 @@
         <Nullable>enable</Nullable>
         <LangVersion>8</LangVersion>
         <ImplicitUsings>disable</ImplicitUsings>
-        <RootNamespace>DELTation.LeoEcsExtensions.CodeGen.Example</RootNamespace>
+        <RootNamespace>DELTation.LeoEcsExtensions.CodeGen</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DELTation.LeoEcsExtensions.CodeGen\DELTation.LeoEcsExtensions.CodeGen.csproj" OutputItemType="Analyzer"/>
-        <ProjectReference Include="..\ecslite\ecslite.csproj"/>
+        <ProjectReference Include="..\DELTation.LeoEcsExtensions.CodeGen\DELTation.LeoEcsExtensions.CodeGen.csproj" OutputItemType="Analyzer" />
+        <ProjectReference Include="..\ecslite\ecslite.csproj" />
     </ItemGroup>
 
 </Project>

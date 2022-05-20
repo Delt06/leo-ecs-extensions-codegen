@@ -1,8 +1,8 @@
 using System;
-using DELTation.LeoEcsExtensions.CodeGen.Example.Attributes;
+using DELTation.LeoEcsExtensions.CodeGen.Attributes;
 using Leopotam.EcsLite;
 
-namespace DELTation.LeoEcsExtensions.CodeGen.Example
+namespace DELTation.LeoEcsExtensions.CodeGen
 {
     public partial class EcsSystemExample
     {
