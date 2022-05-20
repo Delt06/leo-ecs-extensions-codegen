@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>Leopotam.EcsLite</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <LangVersion>8</LangVersion>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <AssemblyName>ecslite</AssemblyName>
+    </PropertyGroup>
+</Project>

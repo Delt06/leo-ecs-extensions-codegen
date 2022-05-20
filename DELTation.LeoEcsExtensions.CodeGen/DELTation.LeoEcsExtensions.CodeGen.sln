@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DELTation.LeoEcsExtensions.CodeGen", "DELTation.LeoEcsExtensions.CodeGen\DELTation.LeoEcsExtensions.CodeGen.csproj", "{8F0F478B-D435-4C4C-8DC4-B981018CB5A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecslite", "ecslite\ecslite.csproj", "{9CF6A7D2-7BEC-4168-999E-7A9DA78DBA94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{B436FCBB-9B4C-4C8B-8855-3D7BBBF2B1CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F0F478B-D435-4C4C-8DC4-B981018CB5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F0F478B-D435-4C4C-8DC4-B981018CB5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F0F478B-D435-4C4C-8DC4-B981018CB5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F0F478B-D435-4C4C-8DC4-B981018CB5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF6A7D2-7BEC-4168-999E-7A9DA78DBA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF6A7D2-7BEC-4168-999E-7A9DA78DBA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF6A7D2-7BEC-4168-999E-7A9DA78DBA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF6A7D2-7BEC-4168-999E-7A9DA78DBA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B436FCBB-9B4C-4C8B-8855-3D7BBBF2B1CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B436FCBB-9B4C-4C8B-8855-3D7BBBF2B1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B436FCBB-9B4C-4C8B-8855-3D7BBBF2B1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B436FCBB-9B4C-4C8B-8855-3D7BBBF2B1CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>8</LangVersion>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <RootNamespace>DELTation.LeoEcsExtensions.CodeGen.Example</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DELTation.LeoEcsExtensions.CodeGen\DELTation.LeoEcsExtensions.CodeGen.csproj" OutputItemType="Analyzer" />
+        <ProjectReference Include="..\ecslite\ecslite.csproj" />
+    </ItemGroup>
+
+</Project>
