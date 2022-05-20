@@ -4,6 +4,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 The code generation part of LeoECS Extensions.
+The project relies on .NET Compiler Platform:
+- Source Generators
+- Analyzers
+- Code Fixes Providers
 
 > Developed and tested with Unity 2021.3.0f1
 
