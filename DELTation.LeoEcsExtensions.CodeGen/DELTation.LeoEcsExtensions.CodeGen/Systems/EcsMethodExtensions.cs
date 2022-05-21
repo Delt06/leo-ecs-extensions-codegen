@@ -15,6 +15,9 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems
         private const string EcsDestroy = "EcsDestroy";
         private const string EcsDestroyAttribute = EcsDestroy + "Attribute";
 
+        public static string ConstructUnityRefName(string objectTypeName) =>
+            $"DELTation.LeoEcsExtensions.Components.UnityRef<{objectTypeName}>";
+
         public static bool HasAnyEcsMethodAttribute(this SyntaxList<AttributeListSyntax> attributeLists) =>
             attributeLists.HasEcsRunAttribute() ||
             attributeLists.HasEcsInitAttribute() ||

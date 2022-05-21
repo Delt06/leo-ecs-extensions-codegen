@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static DELTation.LeoEcsExtensions.CodeGen.Systems.Constants;
+using static DELTation.LeoEcsExtensions.CodeGen.Systems.EcsMethodExtensions;
 
 namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
 {
@@ -79,7 +80,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
                     }
                     case EcsMethodParameterProcessor.Result.UnityEngineObject:
                     {
-                        var fqUnityRefName = $"DELTation.LeoEcsExtensions.Components.UnityRef<{parameterTypeName}>";
+                        var fqUnityRefName = ConstructUnityRefName(parameterTypeName);
                         var poolName = GetOrCreatePoolName(poolNames, fqUnityRefName);
                         _parameters.Add(new UnityEngineObjectEcsMethodParameter(poolName, fqUnityRefName));
                         break;

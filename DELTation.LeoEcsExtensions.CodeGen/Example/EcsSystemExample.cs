@@ -22,7 +22,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen
         static partial void Init(int i, ref float d, ref char c) { }
 
         [EcsDestroy]
-        partial void Destroy(int i, in byte b) { }
+        partial void Destroy(int i, Transform transform) { }
     }
 
     [EcsComponent] [EcsComponentWithView] [Serializable]

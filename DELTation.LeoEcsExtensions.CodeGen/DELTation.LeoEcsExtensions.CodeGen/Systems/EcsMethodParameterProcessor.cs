@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static DELTation.LeoEcsExtensions.CodeGen.Systems.EcsMethodExtensions;
 using static DELTation.LeoEcsExtensions.CodeGen.Systems.EcsMethodParameterProcessor.ExtraError;
 using static DELTation.LeoEcsExtensions.CodeGen.Systems.EcsMethodParameterProcessor.Result;
 
@@ -60,11 +61,15 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems
         private Result Run(ParameterSyntax parameter, HashSet<string> componentTypeNames)
         {
             var parameterTypeSymbol = _semanticModel.GetType(parameter);
-            if (parameterTypeSymbol.IsDescendantOfUnityEngineObject())
-                return parameter.Modifiers.Any(SyntaxKind.RefKeyword) ? UnityEngineObjectRef : UnityEngineObject;
-
             var parameterTypeName = parameterTypeSymbol.GetFullyQualifiedName();
 
+            if (parameterTypeSymbol.IsDescendantOfUnityEngineObject())
+            {
+                if (parameter.Modifiers.Any(SyntaxKind.RefKeyword))
+                    return UnityEngineObjectRef;
+                componentTypeNames.Add(ConstructUnityRefName(parameterTypeName));
+                return UnityEngineObject;
+            }
 
             var parameterModifiers = parameter.Modifiers;
 
