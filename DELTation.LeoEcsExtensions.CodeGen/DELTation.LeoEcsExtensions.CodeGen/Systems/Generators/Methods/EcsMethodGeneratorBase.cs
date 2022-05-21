@@ -89,6 +89,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
                     case EcsMethodParameterProcessor.Result.ComponentDuplicate:
                     case EcsMethodParameterProcessor.Result.ComponentWithOutModifier:
                     case EcsMethodParameterProcessor.Result.ComponentWithoutInOrRef:
+                    case EcsMethodParameterProcessor.Result.UnityEngineObjectRef:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

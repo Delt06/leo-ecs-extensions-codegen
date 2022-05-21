@@ -25,6 +25,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems
             ComponentWithOutModifier,
             ComponentWithoutInOrRef,
             UnityEngineObject,
+            UnityEngineObjectRef,
         }
 
         private readonly Compilation _compilation;
@@ -60,7 +61,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems
         {
             var parameterTypeSymbol = _semanticModel.GetType(parameter);
             if (parameterTypeSymbol.IsDescendantOfUnityEngineObject())
-                return UnityEngineObject;
+                return parameter.Modifiers.Any(SyntaxKind.RefKeyword) ? UnityEngineObjectRef : UnityEngineObject;
 
             var parameterTypeName = parameterTypeSymbol.GetFullyQualifiedName();
 

@@ -19,6 +19,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Analyzers
         public const string ReferenceTypeParameterDiagnosticId = "LEOECS004";
         public const string DuplicateParameterTypeDiagnosticId = "LEOECS005";
         public const string NoIncludesId = "LEOECS007";
+        public const string UnityEngineObjectRefParameterDiagnosticId = "LEOECS0012";
 
         private static readonly DiagnosticDescriptor OutParameterDiagnostic = new DiagnosticDescriptor(
             OutParameterDiagnosticId,
@@ -74,10 +75,20 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Analyzers
             true
         );
 
+        private static readonly DiagnosticDescriptor UnityEngineObjectRefParameterDiagnostic = new DiagnosticDescriptor(
+            UnityEngineObjectRefParameterDiagnosticId,
+            "Ref modifier for UnityEngine.Object",
+            "Formal parameter {0} is a UnityEngine.Object and thus does not support the ref modifier",
+            DiagnosticCategory,
+            DiagnosticSeverity.Error,
+            true
+        );
+
         public override ImmutableArray<DiagnosticDescriptor>
             SupportedDiagnostics =>
             ImmutableArray.Create(OutParameterDiagnostic, DuplicateParameterTypeDiagnostic,
-                ReferenceTypeParameterDiagnostic, EntityIdModifiersDiagnostic, InOrRefParameterDiagnostic, NoIncludes
+                ReferenceTypeParameterDiagnostic, EntityIdModifiersDiagnostic, InOrRefParameterDiagnostic, NoIncludes,
+                UnityEngineObjectRefParameterDiagnostic
             );
 
         public override void Initialize(AnalysisContext context)
@@ -142,7 +153,13 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Analyzers
                             )
                         );
                         break;
-
+                    case EcsMethodParameterProcessor.Result.UnityEngineObjectRef:
+                        context.ReportDiagnostic(Diagnostic.Create(UnityEngineObjectRefParameterDiagnostic,
+                                parameter.GetLocation(),
+                                parameter.Identifier.ToString()
+                            )
+                        );
+                        break;
                     case EcsMethodParameterProcessor.Result.Pool:
                     case EcsMethodParameterProcessor.Result.EntityId:
                     case EcsMethodParameterProcessor.Result.Component:
