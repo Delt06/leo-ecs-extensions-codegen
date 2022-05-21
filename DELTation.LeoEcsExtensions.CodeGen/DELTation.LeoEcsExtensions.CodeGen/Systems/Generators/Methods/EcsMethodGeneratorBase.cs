@@ -77,6 +77,13 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Generators.Methods
                         );
                         break;
                     }
+                    case EcsMethodParameterProcessor.Result.UnityEngineObject:
+                    {
+                        var fqUnityRefName = $"DELTation.LeoEcsExtensions.Components.UnityRef<{parameterTypeName}>";
+                        var poolName = GetOrCreatePoolName(poolNames, fqUnityRefName);
+                        _parameters.Add(new UnityEngineObjectEcsMethodParameter(poolName, fqUnityRefName));
+                        break;
+                    }
                     case EcsMethodParameterProcessor.Result.EntityIdWithModifiers:
                     case EcsMethodParameterProcessor.Result.ComponentOfReferenceType:
                     case EcsMethodParameterProcessor.Result.ComponentDuplicate:

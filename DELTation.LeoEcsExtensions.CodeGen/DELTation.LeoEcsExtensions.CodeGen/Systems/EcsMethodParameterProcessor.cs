@@ -24,6 +24,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems
             ComponentDuplicate,
             ComponentWithOutModifier,
             ComponentWithoutInOrRef,
+            UnityEngineObject,
         }
 
         private readonly Compilation _compilation;
@@ -58,6 +59,9 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems
         private Result Run(ParameterSyntax parameter, HashSet<string> componentTypeNames)
         {
             var parameterTypeSymbol = _semanticModel.GetType(parameter);
+            if (parameterTypeSymbol.IsDescendantOfUnityEngineObject())
+                return UnityEngineObject;
+
             var parameterTypeName = parameterTypeSymbol.GetFullyQualifiedName();
 
 

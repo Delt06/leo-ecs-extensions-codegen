@@ -146,6 +146,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Systems.Analyzers
                     case EcsMethodParameterProcessor.Result.Pool:
                     case EcsMethodParameterProcessor.Result.EntityId:
                     case EcsMethodParameterProcessor.Result.Component:
+                    case EcsMethodParameterProcessor.Result.UnityEngineObject:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

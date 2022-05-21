@@ -1,6 +1,5 @@
 ﻿using Components;
 using DELTation.LeoEcsExtensions.CodeGen.Attributes;
-using DELTation.LeoEcsExtensions.Components;
 using UnityEngine;
 
 namespace Systems
@@ -8,9 +7,9 @@ namespace Systems
     public partial class PositionTransformSyncSystem
     {
         [EcsRun]
-        partial void Update(in UnityRef<Transform> transform, in Position position)
+        partial void Update(Transform transform, in Position position)
         {
-            transform.Object.position = position.Value;
+            transform.position = position.Value;
         }
     }
 }

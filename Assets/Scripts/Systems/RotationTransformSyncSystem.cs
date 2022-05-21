@@ -1,6 +1,5 @@
 ﻿using Components;
 using DELTation.LeoEcsExtensions.CodeGen.Attributes;
-using DELTation.LeoEcsExtensions.Components;
 using UnityEngine;
 
 namespace Systems
@@ -8,9 +7,9 @@ namespace Systems
     public partial class RotationTransformSyncSystem
     {
         [EcsRun]
-        partial void Update(in UnityRef<Transform> transform, in Rotation rotation)
+        partial void Update(Transform transform, in Rotation rotation)
         {
-            transform.Object.rotation = rotation.Value;
+            transform.rotation = rotation.Value;
         }
     }
 }

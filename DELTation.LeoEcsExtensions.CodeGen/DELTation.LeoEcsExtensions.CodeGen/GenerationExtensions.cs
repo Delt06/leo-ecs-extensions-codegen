@@ -9,6 +9,19 @@ namespace DELTation.LeoEcsExtensions.CodeGen
 {
     public static class GenerationExtensions
     {
+        public static bool IsDescendantOfUnityEngineObject(this INamedTypeSymbol? namedTypeSymbol)
+        {
+            while (true)
+            {
+                if (namedTypeSymbol == null) return false;
+
+                var fullyQualifiedName = namedTypeSymbol.GetFullyQualifiedName();
+                if (fullyQualifiedName == "UnityEngine.Object") return true;
+
+                namedTypeSymbol = namedTypeSymbol.BaseType;
+            }
+        }
+
         public static StructDeclarationSyntax AddAttributes(this StructDeclarationSyntax sds,
             params string[] attributeName) =>
             sds.AddAttributeLists(

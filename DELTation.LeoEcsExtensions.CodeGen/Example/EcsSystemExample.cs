@@ -1,6 +1,7 @@
 using System;
 using DELTation.LeoEcsExtensions.CodeGen.Attributes;
 using Leopotam.EcsLite;
+using UnityEngine;
 
 namespace DELTation.LeoEcsExtensions.CodeGen
 {
@@ -12,7 +13,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen
 
         [EcsRun]
         partial void Update(int i, ref float c, in double d, in MyGenericStruct<float> myGenericStruct,
-            EcsPool<byte> ints)
+            EcsPool<byte> ints, Transform transform)
         {
             Console.Write(i);
         }
