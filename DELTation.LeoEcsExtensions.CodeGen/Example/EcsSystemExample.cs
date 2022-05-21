@@ -32,4 +32,10 @@ namespace DELTation.LeoEcsExtensions.CodeGen
 
     [EcsComponent]
     public struct MyStruct { }
+
+    [EcsComponent]
+    public struct MyAutoResetStruct : IEcsAutoReset<MyAutoResetStruct>
+    {
+        public void AutoReset(ref MyAutoResetStruct c) { }
+    }
 }

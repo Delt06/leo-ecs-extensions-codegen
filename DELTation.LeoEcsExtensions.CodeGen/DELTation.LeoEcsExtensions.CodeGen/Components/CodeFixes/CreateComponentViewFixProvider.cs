@@ -52,6 +52,16 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Components.CodeFixes
             SyntaxNode @new;
 
             var fullIdentifier = sds.GetIdentifierWithTypeParameters();
+            var componentViewBaseType = "ComponentView";
+
+            var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
+            if (semanticModel == null) return document;
+            var componentType = semanticModel.GetType(sds);
+            var componentFqName = componentType.GetFullyQualifiedName();
+            var fqAutoResetComponentInterfaceName =
+                GenerationExtensions.GetFqAutoResetComponentInterfaceName(componentFqName);
+            if (componentType.Interfaces.Any(i => i.GetFullyQualifiedName() == fqAutoResetComponentInterfaceName))
+                componentViewBaseType = "AutoResetComponentView";
 
             var componentViewSyntax = ClassDeclaration(sds.Identifier + "View")
                     .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -60,7 +70,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Components.CodeFixes
                             SingletonSeparatedList<BaseTypeSyntax>(
                                 SimpleBaseType(
                                     GenericName(
-                                            Identifier("ComponentView")
+                                            Identifier(componentViewBaseType)
                                         )
                                         .WithTypeArgumentList(
                                             TypeArgumentList(

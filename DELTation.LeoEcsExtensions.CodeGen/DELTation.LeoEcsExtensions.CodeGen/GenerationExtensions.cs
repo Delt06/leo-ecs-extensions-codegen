@@ -124,5 +124,11 @@ namespace DELTation.LeoEcsExtensions.CodeGen
 
         public static INamedTypeSymbol GetType(this SemanticModel semanticModel, ClassDeclarationSyntax @class) =>
             semanticModel.GetDeclaredSymbol(@class)!;
+
+        public static INamedTypeSymbol GetType(this SemanticModel semanticModel, StructDeclarationSyntax @struct) =>
+            semanticModel.GetDeclaredSymbol(@struct)!;
+
+        public static string GetFqAutoResetComponentInterfaceName(string fullyQualifiedComponentName) =>
+            $"Leopotam.EcsLite.IEcsAutoReset<{fullyQualifiedComponentName}>";
     }
 }
