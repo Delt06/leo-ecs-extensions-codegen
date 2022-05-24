@@ -19,7 +19,7 @@ namespace DELTation.LeoEcsExtensions.CodeGen.Components.Analyzers
             "Add ref initializer",
             "Add ref initializer",
             Constants.DiagnosticCategory,
-            DiagnosticSeverity.Info,
+            DiagnosticSeverity.Error,
             true
         );
 
